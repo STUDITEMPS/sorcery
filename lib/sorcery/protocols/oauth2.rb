@@ -8,14 +8,15 @@ module Sorcery
         '2.0'
       end
 
-      def authorize_url(options = {})
+      def authorize_url(options = {}, params = {})
         client = build_client(options)
-        client.auth_code.authorize_url(
+        params.merge!({
           redirect_uri: @callback_url,
           scope: @scope,
           display: @display,
           state: @state
-        )
+        })
+        client.auth_code.authorize_url(params)
       end
 
       def get_access_token(args, options = {})
